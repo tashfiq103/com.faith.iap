@@ -30,6 +30,10 @@ namespace com.faith.iap
         public string ProductDescription { get { return _productDescription; } }
         public float ProductPrice { get { return _productPrice; } }
 
+#if UNITY_EDITOR
+        [SerializeField] private bool _showOnEditor;
+#endif
+
         [Header("Settings   :   Basic")]
         [SerializeField] private string _productIdAndroid;
         [SerializeField] private string _productIdIOS;

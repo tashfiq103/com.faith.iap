@@ -2,8 +2,9 @@ namespace com.faith.iap
 {
 #if UNITY_EDITOR && FaithIAP
 
-    using UnityEngine;
     using UnityEditor;
+    using UnityEngine;
+    using UnityEngine.Events;
 
     public class FaithIAPIntegrationManagerEditorWindow : EditorWindow
     {
@@ -11,6 +12,9 @@ namespace com.faith.iap
 
         private const string _linkForDownload = "https://github.com/tashfiq103/com.faith.sdk.analytics";
         private const string _linkForDocumetation = "https://github.com/tashfiq103/com.faith.sdk.analytics/blob/main/README.md";
+
+        private const int _widthOfGenerateEnumButton = 120;
+        private const int _widthOfAddIAPProductButton = 50;
 
         private static EditorWindow _reference;
 
@@ -26,6 +30,8 @@ namespace com.faith.iap
         private GUIContent _generalSettingContent;
         private GUIContent _iapSettingContent;
         private GUIContent _debuggingSettingContent;
+
+        private SerializedProperty _generateProductId;
 
         private SerializedProperty _showGeneralSettings;
         private SerializedProperty _showIAPSettings;
@@ -91,6 +97,12 @@ namespace com.faith.iap
                 EditorGUI.indentLevel += 1;
                 {
                     GeneralSettingGUI();
+
+                    EditorGUILayout.Space();
+                    IAPSettingGUI();
+
+                    EditorGUILayout.Space();
+                    DebuggingSettingsGUI();
                 }
                 EditorGUI.indentLevel -= 1;
             }
@@ -101,12 +113,11 @@ namespace com.faith.iap
 
         #region CustomGUI
 
-        private void DrawHeaderGUI(string title, ref GUIContent gUIContent, ref GUIStyle gUIStyle, ref SerializedProperty serializedProperty)
+        private void DrawHeaderGUI(string title, ref GUIContent gUIContent, ref GUIStyle gUIStyle, ref SerializedProperty serializedProperty, UnityAction PostGUI = null, float widthAdjustment = 0)
         {
-
-            EditorGUILayout.BeginVertical(GUI.skin.box);
+            EditorGUILayout.BeginHorizontal(GUI.skin.box);
             {
-                if (GUILayout.Button(gUIContent, gUIStyle, GUILayout.Width(EditorGUIUtility.currentViewWidth)))
+                if (GUILayout.Button(gUIContent, gUIStyle, GUILayout.Width(EditorGUIUtility.currentViewWidth - widthAdjustment)))
                 {
                     serializedProperty.boolValue = !serializedProperty.boolValue;
                     serializedProperty.serializedObject.ApplyModifiedProperties();
@@ -115,9 +126,12 @@ namespace com.faith.iap
                         "[" + (!serializedProperty.boolValue ? "+" : "-") + "] " + title
                     );
                 }
+
+                PostGUI?.Invoke();
             }
-            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
         }
+
 
         private void GeneralSettingGUI()
         {
@@ -148,6 +162,177 @@ namespace com.faith.iap
             }
         }
 
+        private void IAPSettingGUI() {
+
+            bool showGenerateIAPEnumButton = _generateProductId.boolValue;
+            
+            float adjustedWidth = (showGenerateIAPEnumButton ? _widthOfGenerateEnumButton : 0) + _widthOfAddIAPProductButton + 20;
+
+            DrawHeaderGUI(
+                "In App Purchase",
+                ref _iapSettingContent,
+                ref _settingsTitleStyle,
+                ref _showIAPSettings,
+                ()=> {
+
+                    if (showGenerateIAPEnumButton) {
+
+                        if (GUILayout.Button("Generate IAPEnum", GUILayout.Width(_widthOfGenerateEnumButton))) {
+
+                            SerializedProperty _iapProducts = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts");
+                            int numberOfIAPProducts = _iapProducts.arraySize;
+
+                            string[] enumValue = new string[numberOfIAPProducts + 1];
+
+                            for (int i = 0; i < numberOfIAPProducts; i++)
+                            {
+                                enumValue[i] = FaithIAPEditorUtility.TruncateAllWhiteSpace(_iapProducts.GetArrayElementAtIndex(i).FindPropertyRelative("_productName").stringValue);
+                            }
+                            enumValue[numberOfIAPProducts] = "None";
+
+                            FaithIAPEditorUtility.GenerateEnum(
+                                "Assets/Faith/com.faith.iap/Runtime/Scripts/IAPProduct.cs",
+                                "com.faith.iap",
+                                "IAPProduct", enumValue);
+
+                            _generateProductId.boolValue = false;
+                            _generateProductId.serializedObject.ApplyModifiedProperties();
+                        }
+                    }
+
+                    if (GUILayout.Button("+Add ", GUILayout.Width(_widthOfAddIAPProductButton))) {
+
+                        SerializedProperty _iapProducts = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts");
+
+                        int numberOfIAPProducts = _iapProducts.arraySize;
+                        _iapProducts.arraySize = (numberOfIAPProducts + 1);
+                        _iapProducts.serializedObject.ApplyModifiedProperties();
+
+                        _serializedFaithIAPConfiguretionInfo.ApplyModifiedProperties();
+
+                    }
+                },
+                adjustedWidth);
+
+            if (_showIAPSettings.boolValue)
+            {
+                int numberOfIAPProducts = _faithIAPConfiguretionInfo.IAPProducts.Length;
+                for (int i = 0; i < numberOfIAPProducts; i++)
+                {
+
+                    SerializedProperty serializedIAPProduct = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts").GetArrayElementAtIndex(i);
+
+                    SerializedProperty _showOnEditor = serializedIAPProduct.FindPropertyRelative("_showOnEditor");
+
+                    SerializedProperty _productIdAndroid = serializedIAPProduct.FindPropertyRelative("_productIdAndroid");
+                    SerializedProperty _productIdIOS = serializedIAPProduct.FindPropertyRelative("_productIdIOS");
+
+                    SerializedProperty _productType = serializedIAPProduct.FindPropertyRelative("_productType");
+
+                    SerializedProperty _productName = serializedIAPProduct.FindPropertyRelative("_productName");
+                    SerializedProperty _productDescription = serializedIAPProduct.FindPropertyRelative("_productDescription");
+                    SerializedProperty _productPrice = serializedIAPProduct.FindPropertyRelative("_productPrice");
+
+                    EditorGUILayout.BeginVertical(GUI.skin.box);
+                    {
+                        EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                        {
+                            string iapProductName = string.IsNullOrEmpty(_productName.stringValue) ? ("Product" + i) : _productName.stringValue;
+
+                            _showOnEditor.boolValue = EditorGUILayout.Foldout(
+                                _showOnEditor.boolValue,
+                                iapProductName,
+                                true);
+
+                            if (GUILayout.Button("Remove", GUILayout.Width(80)))
+                            {
+                                _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts").DeleteArrayElementAtIndex(i);
+                                _serializedFaithIAPConfiguretionInfo.ApplyModifiedProperties();
+                                break;
+                            }
+
+                            EditorGUILayout.LabelField("", GUILayout.Width(5));
+
+                        }
+                        EditorGUILayout.EndHorizontal();
+
+                        if (_showOnEditor.boolValue)
+                        {
+
+                            EditorGUI.indentLevel += 2;
+                            {
+                                EditorGUILayout.PropertyField(_productIdAndroid);
+                                EditorGUILayout.PropertyField(_productIdIOS);
+                                EditorGUILayout.PropertyField(_productType);
+
+                                EditorGUILayout.PropertyField(_productName);
+                                EditorGUILayout.PropertyField(_productDescription);
+                                EditorGUILayout.PropertyField(_productPrice);
+                            }
+                            EditorGUI.indentLevel -= 2;
+                        }
+                    }
+                    EditorGUILayout.EndVertical();
+                }
+            }
+        }
+
+        private void DebuggingSettingsGUI()
+        {
+
+            DrawHeaderGUI("Debugging", ref _debuggingSettingContent, ref _settingsTitleStyle, ref _showDebuggingSettings);
+
+            if (_showDebuggingSettings.boolValue)
+            {
+                EditorGUI.indentLevel += 1;
+
+                EditorGUILayout.BeginVertical();
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    {
+                        EditorGUILayout.LabelField(_showIAPLogInConsole.displayName, GUILayout.Width(FaithIAPConfiguretionInfo.EDITOR_LABEL_WIDTH));
+                        EditorGUI.BeginChangeCheck();
+                        _showIAPLogInConsole.boolValue = EditorGUILayout.Toggle(_showIAPLogInConsole.boolValue);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            _showIAPLogInConsole.serializedObject.ApplyModifiedProperties();
+                        }
+                    }
+                    EditorGUILayout.EndHorizontal();
+
+
+                    EditorGUILayout.BeginHorizontal(GUI.skin.box);
+                    {
+                        EditorGUI.BeginChangeCheck();
+                        EditorGUILayout.PropertyField(_infoLogColor);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+
+                            _infoLogColor.serializedObject.ApplyModifiedProperties();
+                        }
+
+                        EditorGUI.BeginChangeCheck();
+                        EditorGUILayout.PropertyField(_warningLogColor);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            _warningLogColor.serializedObject.ApplyModifiedProperties();
+                        }
+
+                        EditorGUI.BeginChangeCheck();
+                        EditorGUILayout.PropertyField(_errorLogColor);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            _errorLogColor.serializedObject.ApplyModifiedProperties();
+                        }
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+                EditorGUILayout.EndVertical();
+
+                EditorGUI.indentLevel -= 1;
+            }
+        }
+
 
         #endregion
 
@@ -156,12 +341,9 @@ namespace com.faith.iap
         private void FetchAllTheReference() {
 
             _faithIAPConfiguretionInfo              = Resources.Load<FaithIAPConfiguretionInfo>("FaithIAPConfiguretionInfo");
-
-            Debug.Log(_faithIAPConfiguretionInfo.name);
-
             _serializedFaithIAPConfiguretionInfo    = new SerializedObject(_faithIAPConfiguretionInfo);
 
-
+            _generateProductId                      = _serializedFaithIAPConfiguretionInfo.FindProperty("_generateProductId");
 
             _showGeneralSettings                    = _serializedFaithIAPConfiguretionInfo.FindProperty("_showGeneralSettings");
             _showIAPSettings                        = _serializedFaithIAPConfiguretionInfo.FindProperty("_showIAPSettings");
@@ -171,7 +353,7 @@ namespace com.faith.iap
                         "[" + (!_showGeneralSettings.boolValue ? "+" : "-") + "] General"
                     );
             _iapSettingContent = new GUIContent(
-                       "[" + (!_showIAPSettings.boolValue ? "+" : "-") + "] " + "IAP"
+                       "[" + (!_showIAPSettings.boolValue ? "+" : "-") + "] " + "In App Purchase"
                    );
 
             _debuggingSettingContent = new GUIContent(

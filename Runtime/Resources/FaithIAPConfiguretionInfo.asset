@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _generateProductId: 1
   _showGeneralSettings: 0
-  _showIAPSettings: 0
+  _showIAPSettings: 1
   _showDebuggingSettings: 0
   _showIAPLogInConsole: 1
   _infoLogColor: {r: 0.013349946, g: 0.5660378, b: 0.10871568, a: 1}
@@ -22,25 +22,29 @@ MonoBehaviour:
   _errorLogColor: {r: 0.5283019, g: 0.0074759563, b: 0.0074759563, a: 1}
   _delayOnRestorePurchaseAndroid: 1
   _iapProducts:
-  - _productIdAndroid: coinpack_small
+  - _showOnEditor: 0
+    _productIdAndroid: coinpack_small
     _productIdIOS: com.alphapotato.battleballet.coinpack_small
     _productType: 0
     _productName: Small Coin Pack
     _productDescription: Pack Contains 3,000 Coins
     _productPrice: 0.99
-  - _productIdAndroid: coinpack_large
+  - _showOnEditor: 0
+    _productIdAndroid: coinpack_large
     _productIdIOS: com.alphapotato.battleballet.coinpack_large
     _productType: 0
     _productName: Large Coin Pack
     _productDescription: Pack Contains 10,000 Coins
     _productPrice: 2.99
-  - _productIdAndroid: no_ads_pack
+  - _showOnEditor: 0
+    _productIdAndroid: no_ads_pack
     _productIdIOS: com.alphapotato.battleballet.no_ads_pack
     _productType: 1
     _productName: Remove ADs
     _productDescription: Remove All Non-Rewarded ADs From The Game
     _productPrice: 1.99
-  - _productIdAndroid: diva_pack
+  - _showOnEditor: 0
+    _productIdAndroid: diva_pack
     _productIdIOS: com.alphapotato.battleballet.diva_pack
     _productType: 1
     _productName: Diva Pack

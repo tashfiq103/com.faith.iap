@@ -243,11 +243,10 @@
 
         public void RestorePurchase(UnityAction<List<IAPProduct>> OnRestorePurchase)
         {
-
             if (IsIAPInitialized)
             {
-
                 FaithIAPLogger.Log("RestorePurchase : Start");
+
 
 #if !UNITY_EDITOR && (UNITY_IOS || UNITY_STANDALONE_OSX)
                 FaithIAPLogger.Log("RestorePurchase : Start");

@@ -30,8 +30,6 @@
 
 #endif
 
-
-
         [SerializeField] private bool _showIAPLogInConsole = true;
 
         [SerializeField] private Color _infoLogColor = Color.cyan;
