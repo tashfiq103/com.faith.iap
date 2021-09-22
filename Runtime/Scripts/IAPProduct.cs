@@ -6,6 +6,7 @@ namespace com.faith.iap
 		LargeCoinPack,
 		RemoveADs,
 		DivaPack,
+		Fagooot,
 		None
 	}
 }

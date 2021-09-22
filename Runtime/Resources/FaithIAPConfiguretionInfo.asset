@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac9c425cf189408793d2a7b36634974, type: 3}
   m_Name: FaithIAPConfiguretionInfo
   m_EditorClassIdentifier: 
-  _generateProductId: 1
+  _generateProductId: 0
   _showGeneralSettings: 0
   _showIAPSettings: 1
   _showDebuggingSettings: 0
@@ -48,5 +48,12 @@ MonoBehaviour:
     _productIdIOS: com.alphapotato.battleballet.diva_pack
     _productType: 1
     _productName: Diva Pack
+    _productDescription: 12k Coins, 2 Costume & Remove Inter-Banner Ad
+    _productPrice: 5.99
+  - _showOnEditor: 1
+    _productIdAndroid: diva_pack
+    _productIdIOS: com.alphapotato.battleballet.diva_pack
+    _productType: 1
+    _productName: Fagooot
     _productDescription: 12k Coins, 2 Costume & Remove Inter-Banner Ad
     _productPrice: 5.99

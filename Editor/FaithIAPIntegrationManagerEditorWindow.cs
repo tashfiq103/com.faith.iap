@@ -166,7 +166,7 @@ namespace com.faith.iap
 
             bool showGenerateIAPEnumButton = _generateProductId.boolValue;
             
-            float adjustedWidth = (showGenerateIAPEnumButton ? _widthOfGenerateEnumButton : 0) + _widthOfAddIAPProductButton + 20;
+            float adjustedWidth = _showIAPSettings.boolValue ? ((showGenerateIAPEnumButton ? _widthOfGenerateEnumButton : 0) + _widthOfAddIAPProductButton + 20) : 0;
 
             DrawHeaderGUI(
                 "In App Purchase",
@@ -175,42 +175,50 @@ namespace com.faith.iap
                 ref _showIAPSettings,
                 ()=> {
 
-                    if (showGenerateIAPEnumButton) {
+                    if (_showIAPSettings.boolValue) {
 
-                        if (GUILayout.Button("Generate IAPEnum", GUILayout.Width(_widthOfGenerateEnumButton))) {
+                        if (showGenerateIAPEnumButton)
+                        {
+
+                            if (GUILayout.Button("Generate IAPEnum", GUILayout.Width(_widthOfGenerateEnumButton)))
+                            {
+
+                                SerializedProperty _iapProducts = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts");
+                                int numberOfIAPProducts = _iapProducts.arraySize;
+
+                                string[] enumValue = new string[numberOfIAPProducts + 1];
+
+                                for (int i = 0; i < numberOfIAPProducts; i++)
+                                {
+                                    enumValue[i] = FaithIAPEditorUtility.TruncateAllWhiteSpace(_iapProducts.GetArrayElementAtIndex(i).FindPropertyRelative("_productName").stringValue);
+                                }
+                                enumValue[numberOfIAPProducts] = "None";
+
+                                FaithIAPEditorUtility.GenerateEnum(
+                                    "Assets/Faith/com.faith.iap/Runtime/Scripts/IAPProduct.cs",
+                                    "com.faith.iap",
+                                    "IAPProduct", enumValue);
+
+                                _generateProductId.boolValue = false;
+                                _generateProductId.serializedObject.ApplyModifiedProperties();
+                            }
+                        }
+
+                        if (GUILayout.Button("+Add ", GUILayout.Width(_widthOfAddIAPProductButton)))
+                        {
 
                             SerializedProperty _iapProducts = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts");
+
                             int numberOfIAPProducts = _iapProducts.arraySize;
+                            _iapProducts.arraySize = (numberOfIAPProducts + 1);
+                            _iapProducts.serializedObject.ApplyModifiedProperties();
 
-                            string[] enumValue = new string[numberOfIAPProducts + 1];
+                            _serializedFaithIAPConfiguretionInfo.ApplyModifiedProperties();
 
-                            for (int i = 0; i < numberOfIAPProducts; i++)
-                            {
-                                enumValue[i] = FaithIAPEditorUtility.TruncateAllWhiteSpace(_iapProducts.GetArrayElementAtIndex(i).FindPropertyRelative("_productName").stringValue);
-                            }
-                            enumValue[numberOfIAPProducts] = "None";
-
-                            FaithIAPEditorUtility.GenerateEnum(
-                                "Assets/Faith/com.faith.iap/Runtime/Scripts/IAPProduct.cs",
-                                "com.faith.iap",
-                                "IAPProduct", enumValue);
-
-                            _generateProductId.boolValue = false;
-                            _generateProductId.serializedObject.ApplyModifiedProperties();
                         }
-                    }
-
-                    if (GUILayout.Button("+Add ", GUILayout.Width(_widthOfAddIAPProductButton))) {
-
-                        SerializedProperty _iapProducts = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts");
-
-                        int numberOfIAPProducts = _iapProducts.arraySize;
-                        _iapProducts.arraySize = (numberOfIAPProducts + 1);
-                        _iapProducts.serializedObject.ApplyModifiedProperties();
-
-                        _serializedFaithIAPConfiguretionInfo.ApplyModifiedProperties();
 
                     }
+
                 },
                 adjustedWidth);
 
@@ -265,7 +273,14 @@ namespace com.faith.iap
                                 EditorGUILayout.PropertyField(_productIdIOS);
                                 EditorGUILayout.PropertyField(_productType);
 
+                                EditorGUI.BeginChangeCheck();
                                 EditorGUILayout.PropertyField(_productName);
+                                if (EditorGUI.EndChangeCheck()) {
+
+                                    _generateProductId.boolValue = true;
+                                    _generateProductId.serializedObject.ApplyModifiedProperties();
+                                }
+
                                 EditorGUILayout.PropertyField(_productDescription);
                                 EditorGUILayout.PropertyField(_productPrice);
                             }
