@@ -50,10 +50,3 @@ MonoBehaviour:
     _productName: Diva Pack
     _productDescription: 12k Coins, 2 Costume & Remove Inter-Banner Ad
     _productPrice: 5.99
-  - _showOnEditor: 1
-    _productIdAndroid: diva_pack
-    _productIdIOS: com.alphapotato.battleballet.diva_pack
-    _productType: 1
-    _productName: Fagooot
-    _productDescription: 12k Coins, 2 Costume & Remove Inter-Banner Ad
-    _productPrice: 5.99
