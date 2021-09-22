@@ -1,0 +1,16 @@
+{
+    "name": "com.alphapotato.iap.Tests",
+    "references": [
+        "GUID:d82adfa5ed9c1408c9a09740f085aa2b",
+        "GUID:60bfecf5cb232594891bc622f40d6bed"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

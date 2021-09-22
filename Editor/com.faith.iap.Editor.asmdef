@@ -1,0 +1,18 @@
+{
+    "name": "com.faith.iap.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d82adfa5ed9c1408c9a09740f085aa2b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

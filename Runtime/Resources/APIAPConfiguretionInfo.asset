@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac9c425cf189408793d2a7b36634974, type: 3}
+  m_Name: APIAPConfiguretionInfo
+  m_EditorClassIdentifier: 
+  _generateProductId: 0
+  _showAPSdkLogInConsole: 1
+  _infoLogColor: {r: 0.013349946, g: 0.5660378, b: 0.10871568, a: 1}
+  _warningLogColor: {r: 0.5849056, g: 0.5398385, b: 0.019312933, a: 1}
+  _errorLogColor: {r: 0.5283019, g: 0.0074759563, b: 0.0074759563, a: 1}
+  _delayOnRestorePurchaseAndroid: 1
+  _iapProducts:
+  - _productIdAndroid: coinpack_small
+    _productIdIOS: com.alphapotato.battleballet.coinpack_small
+    _productType: 0
+    _productName: Small Coin Pack
+    _productDescription: Pack Contains 3,000 Coins
+    _productPrice: 0.99
+  - _productIdAndroid: coinpack_large
+    _productIdIOS: com.alphapotato.battleballet.coinpack_large
+    _productType: 0
+    _productName: Large Coin Pack
+    _productDescription: Pack Contains 10,000 Coins
+    _productPrice: 2.99
+  - _productIdAndroid: no_ads_pack
+    _productIdIOS: com.alphapotato.battleballet.no_ads_pack
+    _productType: 1
+    _productName: Remove ADs
+    _productDescription: Remove All Non-Rewarded ADs From The Game
+    _productPrice: 1.99
+  - _productIdAndroid: diva_pack
+    _productIdIOS: com.alphapotato.battleballet.diva_pack
+    _productType: 1
+    _productName: Diva Pack
+    _productDescription: 12k Coins, 2 Costume & Remove Inter-Banner Ad
+    _productPrice: 5.99
