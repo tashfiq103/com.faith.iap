@@ -1,5 +1,6 @@
 ﻿namespace com.faith.iap
 {
+
     using UnityEngine;
 
     //[CreateAssetMenu(menuName = "AP/IAP", fileName = "APIAPConfiguretionInfo")]
@@ -33,5 +34,6 @@
 
         [SerializeField] private FaithIAPProduct[] _iapProducts;
     }
+
 }
 

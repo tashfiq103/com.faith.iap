@@ -1,10 +1,13 @@
 ﻿namespace com.faith.iap
 {
+#if FaithIAP
+
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using UnityEngine.Purchasing;
     using UnityEngine.Events;
+
+    using UnityEngine.Purchasing;
 
     public class FaithIAPManager : MonoBehaviour, IStoreListener
     {
@@ -123,9 +126,9 @@
             return PurchaseProcessingResult.Complete;
         }
 
-#endregion
+        #endregion
 
-#region Public Callback
+        #region Public Callback :   Product Information
 
         public string ProductID(IAPProduct iapProduct) {
 
@@ -190,7 +193,13 @@
             return IAPConfiguretionInfo.IAPProducts[productIndex].ProductPrice;
         }
 
-        public void BuyIAPProduct(IAPProduct iapProduct, UnityAction<Product> OnPurchasedSucceed, UnityAction<Product> OnPurchasedFailed = null) {
+
+        #endregion
+
+        #region Public Callback :   PurchaseCall
+
+        public void BuyIAPProduct(IAPProduct iapProduct, UnityAction<Product> OnPurchasedSucceed, UnityAction<Product> OnPurchasedFailed = null)
+        {
 
             if (IsIAPInitialized)
             {
@@ -208,7 +217,7 @@
 
                 string productId = IAPConfiguretionInfo.IAPProducts[productIndex].ProductID;
                 Product product = IAPStoreController.products.WithID(productId);
-                
+
                 if (product == null)
                 {
                     FaithIAPLogger.LogError(string.Format("No such product available with the following id = {0}. return value = null", productId));
@@ -225,15 +234,18 @@
 
                 IAPStoreController.InitiatePurchase(product);
             }
-            else {
+            else
+            {
 
                 FaithIAPLogger.LogError("IAP is not initialized");
             }
         }
 
-        public void RestorePurchase(UnityAction<List<IAPProduct>> OnRestorePurchase) {
+        public void RestorePurchase(UnityAction<List<IAPProduct>> OnRestorePurchase)
+        {
 
-            if (IsIAPInitialized) {
+            if (IsIAPInitialized)
+            {
 
                 FaithIAPLogger.Log("RestorePurchase : Start");
 
@@ -264,7 +276,11 @@
             }
         }
 
-#endregion
+
+        #endregion
     }
+
+#endif
+
 }
 

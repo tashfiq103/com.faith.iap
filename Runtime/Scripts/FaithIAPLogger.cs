@@ -1,6 +1,7 @@
 ﻿namespace com.faith.iap
 {
-    using System.Collections.Generic;
+
+	using System.Collections.Generic;
     using UnityEngine;
 
     public class FaithIAPLogger : MonoBehaviour
@@ -160,5 +161,6 @@
 		#endregion
 
 	}
+
 }
 

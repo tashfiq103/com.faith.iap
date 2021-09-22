@@ -1,5 +1,6 @@
 namespace com.faith.iap
 {
+
     using UnityEngine;
     using UnityEditor;
     using System;

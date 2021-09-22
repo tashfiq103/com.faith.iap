@@ -1,10 +1,11 @@
 ﻿namespace com.faith.iap
 {
+#if FaithIAP
     using UnityEngine;
     using UnityEngine.UI;
     public class UnityIAPTest : MonoBehaviour
     {
-        #region Variables
+#region Variables
 
         [SerializeField] private Button _smallCoinButton;
         [SerializeField] private Button _largeCoinButton;
@@ -12,9 +13,9 @@
         [SerializeField] private Button _divaPackButton;
         [SerializeField] private Button _restorePurchaseButton;
 
-        #endregion
+#endregion
 
-        #region Mono Behaviour
+#region Mono Behaviour
 
         private void Awake()
         {
@@ -64,7 +65,8 @@
 
         }
 
-        #endregion
+#endregion
     }
+#endif
 }
 

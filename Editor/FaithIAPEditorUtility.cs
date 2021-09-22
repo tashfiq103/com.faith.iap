@@ -1,5 +1,6 @@
 ﻿namespace com.faith.iap
 {
+#if FaithIAP
     using UnityEngine;
     using UnityEditor;
     using System.IO;
@@ -7,7 +8,7 @@
 
     public class APIAPEditorUtility : Editor
     {
-        #region Editor Module   :   GUI
+#region Editor Module   :   GUI
 
         internal static void ShowScriptReference(SerializedObject serializedObject)
         {
@@ -62,9 +63,9 @@
 
         }
 
-        #endregion
+#endregion
 
-        #region Editor Module   :   Asset
+#region Editor Module   :   Asset
 
         internal static List<T> GetAsset<T>(bool returnIfGetAny = false, params string[] directoryFilters)
         {
@@ -92,9 +93,9 @@
             return listOfAsset;
         }
 
-        #endregion
+#endregion
 
-        #region Editor Module   :   CodeGenerator
+#region Editor Module   :   CodeGenerator
 
         internal static void GenerateEnum(string path, string nameSpace, string nameOfEnum, params string[] enumValue)
         {
@@ -125,9 +126,9 @@
             AssetDatabase.Refresh();
         }
 
-        #endregion
+#endregion
 
-        #region Editor Module   :   UnityTechnology
+#region Editor Module   :   UnityTechnology
 
         internal static bool DropDownToggle(ref bool toggled, GUIContent content, GUIStyle toggleButtonStyle)
         {
@@ -146,9 +147,9 @@
         //Extended  :   Tashfiq
 
 
-        #endregion
+#endregion
 
-        #region Editor Module   :   Utility
+#region Editor Module   :   Utility
 
         public static string TruncateAllWhiteSpace(string t_ModifiableString)
         {
@@ -164,7 +165,8 @@
             return t_NewString;
         }
 
-        #endregion
+#endregion
     }
+#endif
 }
 

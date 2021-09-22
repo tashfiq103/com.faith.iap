@@ -1,12 +1,14 @@
 ﻿namespace com.faith.iap
 {
+#if FaithIAP
+
     using UnityEngine;
     using UnityEditor;
 
     [CustomEditor(typeof(FaithIAPConfiguretionInfo))]
     public class FaithIAPConfiguretionInfoEditor : Editor
     {
-        #region Variables
+#region Variables
 
         private FaithIAPConfiguretionInfo _reference;
 
@@ -22,9 +24,9 @@
 
         private SerializedProperty _iapProducts;
 
-        #endregion
+#endregion
 
-        #region Editor
+#region Editor
 
         private void OnEnable()
         {
@@ -105,9 +107,9 @@
             serializedObject.ApplyModifiedProperties();
         }
 
-        #endregion
+#endregion
 
-        #region Configuretion
+#region Configuretion
 
         private void CheckIfAnyProductNameNullOrEmpty() {
 
@@ -125,7 +127,8 @@
             }
         }
 
-        #endregion
+#endregion
     }
+#endif
 }
 
