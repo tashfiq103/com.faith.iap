@@ -35,13 +35,14 @@ namespace com.faith.iap
 #endif
 
         [Header("Settings   :   Basic")]
-        [SerializeField] private string _productIdAndroid;
+        [SerializeField] private string _productName;
+        [SerializeField, Space(2.5f)] private string _productIdAndroid;
         [SerializeField] private string _productIdIOS;
 #if FaithIAP
-        [SerializeField] private ProductType _productType;
+        [SerializeField, Space(2.5f)] private ProductType _productType;
 #endif
         [Header("Settings   :   Optional")]
-        [SerializeField] private string _productName;
+        
         [SerializeField] private string _productDescription;
         [SerializeField] private float _productPrice;
     }

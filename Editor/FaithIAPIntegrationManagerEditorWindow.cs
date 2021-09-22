@@ -276,16 +276,19 @@ namespace com.faith.iap
 
                             EditorGUI.indentLevel += 2;
                             {
+                                EditorGUI.BeginChangeCheck();
+                                EditorGUILayout.PropertyField(_productName);
+                                if (EditorGUI.EndChangeCheck())
+                                {
+
+                                    SetIAPEnumGenerationStatus(true);
+                                }
+
                                 EditorGUILayout.PropertyField(_productIdAndroid);
                                 EditorGUILayout.PropertyField(_productIdIOS);
                                 EditorGUILayout.PropertyField(_productType);
 
-                                EditorGUI.BeginChangeCheck();
-                                EditorGUILayout.PropertyField(_productName);
-                                if (EditorGUI.EndChangeCheck()) {
-
-                                    SetIAPEnumGenerationStatus(true);
-                                }
+                                
 
                                 EditorGUILayout.PropertyField(_productDescription);
                                 EditorGUILayout.PropertyField(_productPrice);
