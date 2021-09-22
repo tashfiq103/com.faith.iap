@@ -14,7 +14,7 @@
 
         private SerializedProperty _generateProductId;
 
-        private SerializedProperty _showAPSdkLogInConsole;
+        private SerializedProperty _showIAPLogInConsole;
 
         private SerializedProperty _infoLogColor;
         private SerializedProperty _warningLogColor;
@@ -37,7 +37,7 @@
 
             _generateProductId = serializedObject.FindProperty("_generateProductId");
 
-            _showAPSdkLogInConsole = serializedObject.FindProperty("_showAPSdkLogInConsole");
+            _showIAPLogInConsole = serializedObject.FindProperty("_showIAPLogInConsole");
 
             _infoLogColor = serializedObject.FindProperty("_infoLogColor");
             _warningLogColor = serializedObject.FindProperty("_warningLogColor");
@@ -49,11 +49,11 @@
 
         public override void OnInspectorGUI()
         {
-            APIAPEditorUtility.ShowScriptReference(serializedObject);
+            FaithIAPEditorUtility.ShowScriptReference(serializedObject);
 
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(_showAPSdkLogInConsole);
+            EditorGUILayout.PropertyField(_showIAPLogInConsole);
 
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_infoLogColor);
@@ -64,7 +64,7 @@
 
                 CheckIfAnyProductNameNullOrEmpty();
 
-                APIAPEditorUtility.DrawHorizontalLine();
+                FaithIAPEditorUtility.DrawHorizontalLine();
                 EditorGUILayout.BeginHorizontal();
                 {
                     EditorGUILayout.HelpBox("Generate Unique EnumID for IAP Product", MessageType.Info);
@@ -74,11 +74,11 @@
                         string[] enumValue = new string[numberOfProduct + 1];
 
                         for (int i = 0; i < numberOfProduct; i++) {
-                            enumValue[i] = APIAPEditorUtility.TruncateAllWhiteSpace(_reference.IAPProducts[i].ProductName);
+                            enumValue[i] = FaithIAPEditorUtility.TruncateAllWhiteSpace(_reference.IAPProducts[i].ProductName);
                         }
                         enumValue[numberOfProduct] = "None";
 
-                        APIAPEditorUtility.GenerateEnum(
+                        FaithIAPEditorUtility.GenerateEnum(
                             "Assets/Faith/com.faith.iap/Runtime/Scripts/IAPProduct.cs",
                             "com.faith.iap",
                             "IAPProduct", enumValue);
@@ -91,7 +91,7 @@
 
             }
 
-            APIAPEditorUtility.DrawHorizontalLine();
+            FaithIAPEditorUtility.DrawHorizontalLine();
 
             EditorGUILayout.PropertyField(_delayOnRestorePurchaseAndroid);
             EditorGUI.BeginChangeCheck();

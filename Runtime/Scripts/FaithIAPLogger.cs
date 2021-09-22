@@ -120,7 +120,7 @@
 
 		public static void Log(object message)
 		{
-			if (_apIAPConfiguretionInfo.ShowAPSdkLogInConsole)
+			if (_apIAPConfiguretionInfo.ShowIAPLogInConsole)
 			{
 				Debug.Log(string.Format(
 					"<color={0}>{1}{2}</color>",
@@ -134,7 +134,7 @@
 
 		public static void LogWarning(object message)
 		{
-			if (_apIAPConfiguretionInfo.ShowAPSdkLogInConsole)
+			if (_apIAPConfiguretionInfo.ShowIAPLogInConsole)
 			{
 				Debug.LogWarning(string.Format(
 					"<color={0}>{1}{2}</color>",
@@ -147,7 +147,7 @@
 
 		public static void LogError(object message)
 		{
-			if (_apIAPConfiguretionInfo.ShowAPSdkLogInConsole)
+			if (_apIAPConfiguretionInfo.ShowIAPLogInConsole)
 			{
 				Debug.LogError(string.Format(
 					"<color={0}>{1}{2}</color>",

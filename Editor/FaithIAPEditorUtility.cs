@@ -6,7 +6,7 @@
     using System.IO;
     using System.Collections.Generic;
 
-    public class APIAPEditorUtility : Editor
+    public class FaithIAPEditorUtility : Editor
     {
 #region Editor Module   :   GUI
 

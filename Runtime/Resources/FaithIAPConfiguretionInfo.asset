@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ac9c425cf189408793d2a7b36634974, type: 3}
-  m_Name: APIAPConfiguretionInfo
+  m_Name: FaithIAPConfiguretionInfo
   m_EditorClassIdentifier: 
-  _generateProductId: 0
-  _showAPSdkLogInConsole: 1
+  _generateProductId: 1
+  _showGeneralSettings: 0
+  _showIAPSettings: 0
+  _showDebuggingSettings: 0
+  _showIAPLogInConsole: 1
   _infoLogColor: {r: 0.013349946, g: 0.5660378, b: 0.10871568, a: 1}
   _warningLogColor: {r: 0.5849056, g: 0.5398385, b: 0.019312933, a: 1}
   _errorLogColor: {r: 0.5283019, g: 0.0074759563, b: 0.0074759563, a: 1}

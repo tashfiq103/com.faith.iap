@@ -257,7 +257,7 @@
                     if (result)
                     {
                         UpdateListOfPurchasedIAPProduct();
-
+                        FaithIAPLogger.Log("RestorePurchase : Complete");
                         OnRestorePurchase?.Invoke(ListOfPurchasedIAPProduct);
                     }
                     else {
