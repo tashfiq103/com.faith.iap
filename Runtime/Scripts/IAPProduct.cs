@@ -2,10 +2,10 @@ namespace com.faith.iap
 {
 	public enum IAPProduct
 	{
-		SmallCoinPack,
-		LargeCoinPack,
-		RemoveADs,
-		DivaPack,
+		IAP_SmallCoinPack,
+		IAP_LargeCoinPack,
+		IAP_RemoveADs,
+		IAP_DivaPack,
 		None
 	}
 }

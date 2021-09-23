@@ -70,6 +70,7 @@ namespace com.faith.iap
         private void OnDisable()
         {
             _IsInformationFetched = false;
+            EnforceEnumGeneration();
         }
 
         private void OnFocus()
@@ -80,6 +81,7 @@ namespace com.faith.iap
         private void OnLostFocus()
         {
             _IsInformationFetched = false;
+            EnforceEnumGeneration();
         }
 
         private void OnGUI()
@@ -182,24 +184,7 @@ namespace com.faith.iap
 
                             if (GUILayout.Button("Generate IAPEnum", GUILayout.Width(_widthOfGenerateEnumButton)))
                             {
-
-                                SerializedProperty _iapProducts = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts");
-                                int numberOfIAPProducts = _iapProducts.arraySize;
-
-                                string[] enumValue = new string[numberOfIAPProducts + 1];
-
-                                for (int i = 0; i < numberOfIAPProducts; i++)
-                                {
-                                    enumValue[i] = FaithIAPEditorUtility.TruncateAllWhiteSpace(_iapProducts.GetArrayElementAtIndex(i).FindPropertyRelative("_productName").stringValue);
-                                }
-                                enumValue[numberOfIAPProducts] = "None";
-
-                                FaithIAPEditorUtility.GenerateEnum(
-                                    "Assets/Faith/com.faith.iap/Runtime/Scripts/IAPProduct.cs",
-                                    "com.faith.iap",
-                                    "IAPProduct", enumValue);
-
-                                SetIAPEnumGenerationStatus(false);
+                                GenerateEnum();
                             }
                         }
 
@@ -362,6 +347,27 @@ namespace com.faith.iap
 
         #region Configuretion
 
+        private void GenerateEnum() {
+
+            SerializedProperty _iapProducts = _serializedFaithIAPConfiguretionInfo.FindProperty("_iapProducts");
+            int numberOfIAPProducts = _iapProducts.arraySize;
+
+            string[] enumValue = new string[numberOfIAPProducts + 1];
+
+            for (int i = 0; i < numberOfIAPProducts; i++)
+            {
+                enumValue[i] = "IAP_" + FaithIAPEditorUtility.TruncateAllWhiteSpace(_iapProducts.GetArrayElementAtIndex(i).FindPropertyRelative("_productName").stringValue);
+            }
+            enumValue[numberOfIAPProducts] = "None";
+
+            FaithIAPEditorUtility.GenerateEnum(
+                "Assets/Faith/com.faith.iap/Runtime/Scripts/IAPProduct.cs",
+                "com.faith.iap",
+                "IAPProduct", enumValue);
+
+            SetIAPEnumGenerationStatus(false);
+        }
+
         private void FetchAllTheReference() {
 
             _faithIAPConfiguretionInfo              = Resources.Load<FaithIAPConfiguretionInfo>("FaithIAPConfiguretionInfo");
@@ -400,6 +406,20 @@ namespace com.faith.iap
             _infoLogColor = _serializedFaithIAPConfiguretionInfo.FindProperty("_infoLogColor");
             _warningLogColor = _serializedFaithIAPConfiguretionInfo.FindProperty("_warningLogColor");
             _errorLogColor = _serializedFaithIAPConfiguretionInfo.FindProperty("_errorLogColor");
+        }
+
+        private void EnforceEnumGeneration() {
+
+            if (_generateProductId.boolValue) {
+
+                if (EditorUtility.DisplayDialog(
+                    "Must Recompile",
+                    "In reference the IAPProduct using 'EnumReference', we must re-write the enum class for IAPProducts",
+                    "Sure")) {
+
+                    GenerateEnum();
+                }
+            }
         }
 
         private void SetIAPEnumGenerationStatus(bool status) {

@@ -21,22 +21,22 @@
         {
             _smallCoinButton.onClick.AddListener(() =>
             {
-                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.SmallCoinPack, (product)=> { });
+                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.IAP_SmallCoinPack, (product)=> { });
             });
 
             _largeCoinButton.onClick.AddListener(() =>
             {
-                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.LargeCoinPack, (product) => { });
+                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.IAP_LargeCoinPack, (product) => { });
             });
 
             _noAdButton.onClick.AddListener(() =>
             {
-                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.RemoveADs, (product) => { });
+                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.IAP_RemoveADs, (product) => { });
             });
 
             _divaPackButton.onClick.AddListener(() =>
             {
-                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.DivaPack, (product) => { });
+                FaithIAPManager.Instance.BuyIAPProduct(IAPProduct.IAP_DivaPack, (product) => { });
             });
 
 
